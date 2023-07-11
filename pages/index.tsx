@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import Link from 'next/link'
 
-const HomePage = () => {
-  const [products, setProducts] = useState<TProduct[]>([])
+//getStaticProps
+export const getStaticProps = async () => {
+  const r = await fetch('https://platzi-nextjs-lime.vercel.app/api/avo')
+  if (!r.ok) {
+    throw new Error('Failed to load products.')
+  }
+  const { data: productList }: TAPIAvoResponse = await r.json()
 
-  useEffect(() => {
-    window
-      .fetch(`/api/avo/`)
-      .then((r) => r.json())
-      .then(({ data, length }) => {
-        setProducts(data)
-      })
-  }, [])
+  return {
+    props: {
+      productList,
+    },
+  }
+}
 
+const HomePage = ({ productList }: { productList: TProduct[] }) => {
   return (
     <div>
       <div>Platzi and Next.js!</div>
-      {products.map((product) => (
-        <div className="product">
-          <p> {product.name}</p>
+      {productList.map((product) => (
+        <div className="product" key={product.name}>
+          <Link href={`product/${product.id}`} >
+            <p> {product.name}</p>
+          </Link>
         </div>
       ))}
     </div>
