@@ -1,7 +1,15 @@
-import Layout from '@/components/layout/layout'
+import Layout from '@/components/layout/Layout'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+
+// import { useReportWebVitals } from 'next/web-vitals'
+
 export default function MyApp({ Component, pageProps }: AppProps) {
+  
+  // useReportWebVitals((metric) => {
+  //   console.log(metric)
+  // }) 
+
   return (
     <Layout>
       <Head>
